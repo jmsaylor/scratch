@@ -1,0 +1,9 @@
+(ns scratch.core
+  (:require [scratch.library :as lib]))
+
+(defn yapo [[x y]]
+  (loop [x x y y]
+  (Thread/sleep 10)
+  (recur [(lib/rabo x) (lib/yabo y)])))
+
+(defn rapo [x] (yapo [x x]))
