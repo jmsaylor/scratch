@@ -1,3 +1,0 @@
-(ns scratch.library)
-
-(defn rabo [x] (* x 1000))
