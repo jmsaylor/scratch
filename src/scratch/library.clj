@@ -6,18 +6,6 @@
 
 (defn get-random-direction [] (rand-nth [:d-up :v-right :v-middle :v-left :d-down :h-bottom :h-middle :h-top]))
 
-(defn draw [direction grid]
-  (let [[a b c] grid]
-    (case direction
-      :h-top [(swap-row a) b c]
-      :h-middle [a (swap-row b) c]
-      :h-bottom [a b (swap-row c)]
-      :v-left (draw-vertical-left grid)
-      :v-middle (draw-vertical-middle grid)
-      :v-right (draw-vertical-right grid)
-      :d-up (draw-diagonal-up grid)
-      :d-down (draw-diagonal-down grid))))
-
 (defn swap-row [row] (let [[a b c] row] [(swap-it a) (swap-it b) (swap-it c)]))
 
 (defn draw-diagonal-up [grid]
@@ -39,6 +27,25 @@
 (defn draw-vertical-right [grid]
   (let [[[a b c] [d e f] [g h i]] grid]
     [[a b (swap-it c)] [d e (swap-it f)] [g h (swap-it i)]]))
+
+(defn draw [direction grid]
+  (let [[a b c] grid]
+    (case direction
+      :h-top [(swap-row a) b c]
+      :h-middle [a (swap-row b) c]
+      :h-bottom [a b (swap-row c)]
+      :v-left (draw-vertical-left grid)
+      :v-middle (draw-vertical-middle grid)
+      :v-right (draw-vertical-right grid)
+      :d-up (draw-diagonal-up grid)
+      :d-down (draw-diagonal-down grid))))
+
+(defn r-step [grid n]
+  (if (< n 0)
+    grid
+    (recur (draw (get-random-direction) grid) (dec n))))
+
+(defn step [grid] (r-step grid (rand-int 2)))
 
 (defn print-grid [grid]
   (loop [n 0]
